@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const ProfileResults = () => {
+const ProfileResults = () => {
     return (
         <div>
             <h1>This is the Profile Results</h1>

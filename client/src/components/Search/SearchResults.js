@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const SearchResults = () => {
+const SearchResults = () => {
     return (
         <div>
             <h1>This is the Search Results</h1>
