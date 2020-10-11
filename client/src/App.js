@@ -1,25 +1,27 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import LandingPage from './components/LandingPage';
+import SearchResults from './components/SearchResults';
+import ProfileResults from './components/ProfileResults';
+import MovieResult from './components/MovieResult';
+import ProfileResult from './components/ProfileResult';
+import Settings from './components/Settings';
+import MyProfile from './components/MyProfile';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+<Router>
+  <Switch>
+    <Route exact path="/" component={LandingPage}/>
+    <Route exact path="/search-results" component={SearchResults}/>
+    <Route exact path="/profile-results" component={ProfileResults}/>
+    <Route exact path="/movie-result" component={MovieResult}/>
+    <Route exact path="/profile-result" component={ProfileResult}/>
+    <Route exact path="/settings" component={Settings}/>
+    <Route exact path="/myprofile" component={MyProfile}/>
+  </Switch>
+</Router>
   );
 }
 
