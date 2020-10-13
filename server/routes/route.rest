@@ -1,0 +1,8 @@
+GET http://localhost:8080/
+Content-Type: application/json
+
+{
+    "comment": "Was poppin",
+    "createdAt": "Tue Oct 11 2020 13:24:10",
+    "tags" : "comedy",
+}
