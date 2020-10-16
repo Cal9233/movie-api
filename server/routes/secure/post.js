@@ -21,7 +21,8 @@ router.post("/api/posts", async (req, res) => {
   }
 });
 
-router.get("/api/posts", async (req, res) => {
+//get all of a users posts
+router.get("/api/posts/me", async (req, res) => {
   try {
     const posts = await Post.find({ owner: req.user._id });
     res.json(posts);
