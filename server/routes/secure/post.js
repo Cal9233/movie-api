@@ -3,11 +3,12 @@ const router = require("express").Router(),
 
 router.post("/api/posts", async (req, res) => {
   //retrieve data from request
-  const { comment, tags } = req.body;
+  const { comment, tags, movie_id } = req.body;
   //construct blog model
   const newPost = new Post({
     comment,
     tags,
+    movie_id,
     owner: req.user._id,
   });
 

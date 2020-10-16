@@ -85,4 +85,15 @@ router.get("/api/search/:search", async (req, res) => {
   }
 });
 
+//get all posts for a movie
+router.get("/api/posts/:mid", async (req, res) => {
+  try {
+    const { mid } = req.params;
+
+    const posts = await Post.find({ movie_id: mid });
+    res.json(posts);
+  } catch (error) {
+    console.log(error);
+  }
+});
 module.exports = router;

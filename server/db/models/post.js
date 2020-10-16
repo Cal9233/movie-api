@@ -7,6 +7,7 @@ const postSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
+    movie_id: { type: String, required: true },
     tags: { type: [String] },
   },
   { timestamps: true }
