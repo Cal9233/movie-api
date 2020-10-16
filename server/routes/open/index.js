@@ -1,5 +1,7 @@
 const router = require("express").Router(),
-  User = require("../../db/models/user");
+  User = require("../../db/models/user"),
+  mongoose = require("mongoose"),
+  axios = require("axios");
 // Login a user
 router.post("/api/users/login", async (req, res) => {
   try {
@@ -70,4 +72,59 @@ router.get("/api/password/:token", (req, res) => {
     res.json({ error: e.toString() });
   }
 });
+
+// search for movie in OMDB
+router.get("/api/search/:search", async (req, res) => {
+  try {
+    const { search } = req.params;
+
+    const fetch = await axios.get(
+      `http://www.omdbapi.com/?s=${search}&apikey=${process.env.OMDB_KEY}`
+    );
+    res.json(fetch.data);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+//get all posts for a movie
+router.get("/api/posts/movie/:mid", async (req, res) => {
+  try {
+    const { mid } = req.params;
+
+    const posts = await Post.find({ movie_id: mid });
+    if (!posts) return res.sendStatus(404);
+
+    res.json(posts);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+//get all of a users posts by user id
+router.get("/api/posts/user/:uid", async (req, res) => {
+  try {
+    const { uid } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(uid))
+      return res.status(400).json({ error: "not a valid user id" });
+
+    const posts = await Post.find({ owner: uid });
+
+    if (!posts) return res.sendStatus(404);
+    res.json(posts);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+//get posts by post id
+router.get("/api/posts/:id", async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+    res.json(post);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 module.exports = router;

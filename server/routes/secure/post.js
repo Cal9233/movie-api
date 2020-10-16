@@ -1,17 +1,15 @@
 const router = require("express").Router(),
-  Post = require("../../db/models/post"),
-  express = require("express");
+  Post = require("../../db/models/post");
 
-router.get("/", async (req, res) => {
+router.post("/api/posts", async (req, res) => {
   //retrieve data from request
-  const { comment, createdAt, tags } = req.body;
-  console.log(comment, createdAt, tags);
-
+  const { comment, tags, movie_id } = req.body;
   //construct blog model
   const newPost = new Post({
     comment,
-    createdAt,
     tags,
+    movie_id,
+    owner: req.user._id,
   });
 
   //save blog model
@@ -23,14 +21,23 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/", async (req, res) => {
-  const posts = await Post.find();
-  res.json(posts);
+//get all of a users posts
+router.get("/api/posts/me", async (req, res) => {
+  try {
+    const posts = await Post.find({ owner: req.user._id });
+    res.json(posts);
+  } catch (error) {
+    console.log(error);
+  }
 });
 
-router.get("/:id", async (req, res) => {
-  const post = await Post.findById(req.params.id);
-  res.json(post);
+router.get("/api/posts/:id", async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+    res.json(post);
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 module.exports = router;
