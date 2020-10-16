@@ -1,5 +1,6 @@
 const router = require("express").Router(),
-  User = require("../../db/models/user");
+  User = require("../../db/models/user"),
+  axios = require("axios");
 // Login a user
 router.post("/api/users/login", async (req, res) => {
   try {
@@ -70,4 +71,18 @@ router.get("/api/password/:token", (req, res) => {
     res.json({ error: e.toString() });
   }
 });
+
+router.get("/api/search/:search", async (req, res) => {
+  try {
+    const { search } = req.params;
+
+    const fetch = await axios.get(
+      `http://www.omdbapi.com/?s=${search}&apikey=${process.env.OMDB_KEY}`
+    );
+    res.json(fetch.data);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 module.exports = router;
