@@ -1,17 +1,16 @@
 const router = require("express").Router(),
-  Post = require("../../db/models/post"),
-  express = require("express");
+  Post = require("../../db/models/post");
 
-router.get("/", async (req, res) => {
+router.post("/", async (req, res) => {
   //retrieve data from request
-  const { comment, createdAt, tags } = req.body;
-  console.log(comment, createdAt, tags);
+  const { comment, tags } = req.body;
+  console.log(comment, tags);
 
   //construct blog model
   const newPost = new Post({
     comment,
-    createdAt,
     tags,
+    owner: req.user._id,
   });
 
   //save blog model
