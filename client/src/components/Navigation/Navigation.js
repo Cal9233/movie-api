@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useContext, useState } from "react";
+import { AppContext } from "../../context/AppContext";
 import {
   Navbar,
   Nav,
@@ -7,10 +8,27 @@ import {
   FormControl,
   Button,
 } from "react-bootstrap";
+import axios from "axios";
 import { useLocation } from "react-router-dom";
 
-const Navigation = () => {
+const Navigation = ({ history }) => {
   const { pathname } = useLocation();
+  const { setSearchResults } = useContext(AppContext);
+  const [searchQuery, setSearchQuery] = useState();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios
+      .post(`/api/search/${searchQuery}`)
+      .then(({ data }) => {
+        setSearchResults(data.results);
+        history.push("/search");
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("error");
+      });
+  };
 
   if (pathname !== "/") {
     return (
@@ -24,11 +42,12 @@ const Navigation = () => {
               <Nav.Link href="#link">Link</Nav.Link>
               <Nav.Link href="#link">Link</Nav.Link>
             </Nav>
-            <Form inline>
+            <Form onSubmit={(e) => handleSubmit(e)} inline>
               <FormControl
                 type="text"
                 placeholder="Search"
                 className="mr-sm-2"
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
               <Button variant="outline-light">Search</Button>
             </Form>
@@ -36,7 +55,7 @@ const Navigation = () => {
               <NavDropdown title="Account">
                 <NavDropdown.Item href="/login">Login</NavDropdown.Item>
                 <NavDropdown.Item href="/register">Register</NavDropdown.Item>
-                <NavDropdown.Item href="/profile-result">
+                <NavDropdown.Item href="/profile">
                   Your Profile
                 </NavDropdown.Item>
                 <NavDropdown.Divider />

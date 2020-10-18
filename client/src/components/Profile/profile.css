@@ -1,0 +1,35 @@
+#profile-layout {
+  display: grid;
+  grid-template-columns: minmax(100px, 15vw) minmax(calc(92vw - 100px), 82vw);
+  grid-template-areas: "nav main";
+}
+
+#profile-nav {
+  grid-area: nav;
+  min-height: calc(100vh - 30px);
+  margin-top: -30px;
+  margin-left: -15px;
+}
+
+#inner-profile-nav {
+  display: flex;
+  flex-direction: column;
+}
+
+#profile-layout header {
+  grid-area: header;
+}
+
+#profile-layout main {
+  grid-area: main;
+}
+
+#profile-layout main h1 {
+  margin-bottom: 50px;
+}
+
+.profile-flexbox {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
