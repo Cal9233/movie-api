@@ -9,19 +9,20 @@ import {
   Button,
 } from "react-bootstrap";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 
-const Navigation = ({ history }) => {
+const Navigation = () => {
   const { pathname } = useLocation();
+  const history = useHistory();
   const { setSearchResults } = useContext(AppContext);
   const [searchQuery, setSearchQuery] = useState();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post(`/api/search/${searchQuery}`)
+      .get(`http://www.omdbapi.com/?s=${searchQuery}&apikey=OMDBKEY`)
       .then(({ data }) => {
-        setSearchResults(data.results);
+        setSearchResults(data.Search);
         history.push("/search");
       })
       .catch((err) => {

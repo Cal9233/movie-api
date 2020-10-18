@@ -1,0 +1,22 @@
+#movie-card {
+  display: flex;
+  justify-content: center;
+}
+
+#movie-card #movie-img {
+  width: 300px;
+  align-self: flex-start;
+}
+
+#movie-card #movie-table tr > td:first-of-type {
+  font-weight: bold;
+}
+
+@media only screen and (max-width: 800px) {
+  #movie-card {
+    flex-wrap: wrap;
+  }
+  #movie-card #movie-img {
+    align-self: center;
+  }
+}
