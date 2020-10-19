@@ -1,22 +1,53 @@
 #movie-card {
-  display: flex;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: minmax(auto, 300px) auto;
+  grid-gap: 20px;
+  grid-template-areas:
+    "img table"
+    "actions table";
 }
 
 #movie-card #movie-img {
-  width: 300px;
-  align-self: flex-start;
+  grid-area: img;
+  max-width: 300px;
+  justify-self: center;
+}
+
+#movie-card #movie-table {
+  grid-area: table;
 }
 
 #movie-card #movie-table tr > td:first-of-type {
   font-weight: bold;
 }
 
-@media only screen and (max-width: 800px) {
+#movie-card #movie-actions {
+  grid-area: actions;
+}
+
+#movie-actions button {
+  margin: 5px;
+  width: 100%;
+}
+
+@media only screen and (max-width: 890px) {
   #movie-card {
-    flex-wrap: wrap;
+    grid-template-columns: 100%;
+    grid-template-areas:
+      "img"
+      "actions"
+      "table";
   }
-  #movie-card #movie-img {
-    align-self: center;
+  #movie-actions button {
+    width: 300px;
   }
+}
+
+#post-card {
+  width: 100%;
+  margin: 5vh auto;
+}
+
+#post-card #post-table tr > td:first-of-type {
+  width: 20%;
 }

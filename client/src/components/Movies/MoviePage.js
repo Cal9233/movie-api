@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./movie.css";
-import { Card, Table } from "react-bootstrap";
+import { Card } from "react-bootstrap";
+import MovieTable from "./MovieTable";
+import Actions from "./Actions";
+import Posts from "./Posts";
 import axios from "axios";
 
 const MoviePage = ({ match }) => {
@@ -8,15 +11,15 @@ const MoviePage = ({ match }) => {
   const [movie, setMovie] = useState();
 
   useEffect(() => {
-    axios(`http://www.omdbapi.com/?i=${id}&apikey=OMDB_KEY`)
+    axios(`http://www.omdbapi.com/?i=${id}&apikey=OMDBAPIKEY`)
       .then(({ data }) => setMovie(data))
       .catch((err) => console.log(err));
   }, [id]);
 
   return (
     <>
-      <h1>{movie?.Title}</h1>
-      <Card key={movie?.imdbID} style={{ margin: "20px" }}>
+      <h1 className="text-center">{movie?.Title}</h1>
+      <Card key={movie?.imdbID} style={{ margin: "20px auto" }}>
         <Card.Body id="movie-card">
           <Card.Img
             id="movie-img"
@@ -24,57 +27,12 @@ const MoviePage = ({ match }) => {
             src={movie?.Poster}
             alt="movie"
           />
-          <Table id="movie-table" striped bordered hover>
-            <thead>
-              <tr>
-                <th>&nbsp;</th>
-                <th>Info</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Released</td>
-                <td>
-                  {movie?.Released}, {movie?.Language}, {movie?.Country}
-                </td>
-              </tr>
-              <tr>
-                <td>Rated</td>
-                <td>{movie?.Rated}</td>
-              </tr>
-              <tr>
-                <td>Runtime</td>
-                <td>{movie?.Runtime}</td>
-              </tr>
-              <tr>
-                <td>Genre</td>
-                <td>{movie?.Genre}</td>
-              </tr>
-              <tr>
-                <td>Team</td>
-                <td>
-                  <h6>Writers: </h6>
-                  <p>{movie?.Writer}</p>
-                  <hr />
-                  <h6>Director: </h6>
-                  <p>{movie?.Director}</p>
-                  <hr />
-                  <h6>Actors:</h6>
-                  <p>{movie?.Actors}</p>
-                </td>
-              </tr>
-              <tr>
-                <td>Plot</td>
-                <td>{movie?.Plot}</td>
-              </tr>
-              <tr>
-                <td>Awards</td>
-                <td>{movie?.Awards}</td>
-              </tr>
-            </tbody>
-          </Table>
+          <Actions />
+          {movie ? <MovieTable movie={movie} /> : <h2>Loading...</h2>}
         </Card.Body>
       </Card>
+      <h2 className="mt-5">Add Your Thoughts!</h2>
+      <Posts />
     </>
   );
 };
