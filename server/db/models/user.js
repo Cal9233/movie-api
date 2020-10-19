@@ -1,4 +1,5 @@
 const mongoose = require("mongoose"),
+  Post = require("./post"),
   validator = require("validator"),
   bcrypt = require("bcryptjs"),
   jwt = require("jsonwebtoken");
@@ -35,6 +36,21 @@ const userSchema = new mongoose.Schema(
         }
       },
     },
+    favorites: [
+      {
+        favorite: {
+          type: String,
+        },
+      },
+    ],
+    watchlists: [
+      {
+        watchlist: {
+          type: String,
+          trim: true,
+        },
+      },
+    ],
     tokens: [
       {
         token: {
@@ -91,6 +107,14 @@ userSchema.pre("save", async function (next) {
   if (user.isModified("password")) {
     user.password = await bcrypt.hash(user.password, 8);
   }
+  next();
+});
+
+userSchema.pre("remove", async function (next) {
+  const user = this;
+  await Post.deleteMany({
+    owner: user._id,
+  });
   next();
 });
 

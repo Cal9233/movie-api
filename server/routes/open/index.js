@@ -1,7 +1,9 @@
 const router = require("express").Router(),
+  { sendWelcomeEmail, forgotPasswordEmail } = require("../../emails/index"),
   User = require("../../db/models/user"),
   mongoose = require("mongoose"),
   axios = require("axios");
+
 // Login a user
 router.post("/api/users/login", async (req, res) => {
   try {
@@ -32,6 +34,7 @@ router.post("/api/users", async (req, res) => {
       sameSite: "Strict",
       secure: process.env.NODE_ENV !== "production" ? false : true,
     });
+    sendWelcomeEmail(user.email, user.name);
     res.json(user);
   } catch (e) {
     res.status(201).status(400).json({ error: e.toString() });
@@ -50,6 +53,7 @@ router.get("/api/password", async (req, res) => {
         expiresIn: "10m",
       }
     );
+    forgotPasswordEmail(email, token);
     res.json({ message: "reset password link sent to email" });
   } catch (e) {
     res.status(400).json({ error: e.toString() });

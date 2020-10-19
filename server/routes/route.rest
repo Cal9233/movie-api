@@ -1,8 +1,3 @@
-GET http://localhost:8080/
+GET http://localhost:8080/api/password'
 Content-Type: application/json
 
-{
-    "comment": "Was poppin",
-    "createdAt": "Tue Oct 11 2020 13:24:10",
-    "tags" : "comedy",
-}

@@ -30,7 +30,7 @@ router.get("/api/posts/me", async (req, res) => {
     console.log(error);
   }
 });
-
+//Find post by id
 router.get("/api/posts/:id", async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);

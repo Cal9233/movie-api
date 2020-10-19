@@ -1,7 +1,8 @@
 require("./db/config");
 const express = require("express"),
   openRoutes = require("./routes/open"),
-  secureRoutes = require("./routes/secure/post"),
+  postRoutes = require("./routes/secure/post"),
+  userRoutes = require("./routes/secure/user"),
   passport = require("./middleware/index"),
   cookieParser = require("cookie-parser"),
   path = require("path"),
@@ -28,7 +29,8 @@ app.use(
 );
 
 //Secure route
-app.use(secureRoutes);
+app.use(userRoutes);
+app.use(postRoutes);
 
 if (process.env.NODE_ENV === "production") {
   // Handle React routing, return all requests to React app
